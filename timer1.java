@@ -90,14 +90,19 @@ public class timer1 extends JFrame implements ActionListener, Runnable
       // TODO Auto-generated catch block
       e.printStackTrace();
    }
-     button.setText("wait");
+     button.setText("restart");
   }
-  if(actionEvent.getActionCommand().equals("wait"))
+  if(actionEvent.getActionCommand().equals("restart"))
   {
    //threadT.doNothing(threadT, actionEvent);
-   button.setText("start");
+   button.setText("you sure?");
   }
  
+  if(actionEvent.getActionCommand().equals("you sure?"))
+  {
+   threadT.start();
+   button.setText("pause 5 seconds");
+  }
   else
   {
    stop = true;
