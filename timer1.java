@@ -12,7 +12,7 @@ public class timer1 extends JFrame implements ActionListener, Runnable
  JLabel display;
  JButton button;
  boolean stop = false;
- int i, j, k, l;
+ int min, sec, mil;
  
  public timer1()
  {
@@ -29,21 +29,16 @@ public class timer1 extends JFrame implements ActionListener, Runnable
  
  public void run()
  {
-  for(i=0;;i++)
+  for(min = 0; ; min++)
   {
-    for(k=0;k< 60;k++)
+    for(sec = 0; sec < 60; sec++)
     {
-     for(l=0;l< 100;l++)
+     for(mil = 0; mil < 100; mil++)
      {
-      //if hits 60s will stop  
-      if(k == 60)
-      {
-       break; 
-      }
       
       NumberFormat numFormat = new DecimalFormat("00");
-      display.setText(numFormat.format(i) + ":" +
-      numFormat.format(k) + ":" + numFormat.format(l));
+      display.setText(numFormat.format(min) + ":" +
+      numFormat.format(sec) + ":" + numFormat.format(mil));
       try
       {
          Thread.sleep(10);
