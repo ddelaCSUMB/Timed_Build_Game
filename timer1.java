@@ -12,12 +12,12 @@ public class timer1 extends JFrame implements ActionListener, Runnable
  JLabel display;
  JButton button;
  boolean stop = false;
- int i,j,k,l;
+ int i, j, k, l;
  
  public timer1()
  {
   display = new JLabel();
-  button = new JButton("Start");
+  button = new JButton("start");
   display.setFont(new Font("Helena",Font.PLAIN,33));
   display.setBackground(Color.yellow);
   display.setForeground(Color.black);
@@ -52,39 +52,58 @@ public class timer1 extends JFrame implements ActionListener, Runnable
       {       
       }
      }   
-    }   
-   
+    }      
   } 
  }
  
- public void refresh()
+ public void doNothing(Thread threadT, ActionEvent actionEvent)
  {
-    timer1 t1 = new timer1();
-    t1.setSize(200,100);
-    t1.setVisible(true);
-    t1.setTitle("timer: 60 seconds");
-    t1.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    boolean clicked = false;
+    while(clicked == false)
+    {
+       if(actionEvent.getActionCommand().equals("wait"))
+       {
+        
+        button.setText("wait");
+        clicked = true;
+        break;
+       }
+    }
     
  }
  
  public void actionPerformed(ActionEvent actionEvent)
  {
   Thread threadT = new Thread(this);
-  if(actionEvent.getActionCommand().equals("Start"))
+  if(actionEvent.getActionCommand().equals("start"))
   {
    threadT.start();
-   button.setText("Reset");
+   button.setText("pause 5 seconds");
   }
-  if(actionEvent.getActionCommand().equals("Reset"))
+  if(actionEvent.getActionCommand().equals("pause 5 seconds"))
   {
-     threadT.start();
-     button.setText("Reset");
+     try
+   {
+      Thread.sleep(5000);
+   } catch (InterruptedException e)
+   {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+   }
+     button.setText("wait");
   }
+  if(actionEvent.getActionCommand().equals("wait"))
+  {
+   //threadT.doNothing(threadT, actionEvent);
+   button.setText("start");
+  }
+ 
   else
   {
    stop = true;
   }
  }
+ 
  public static void main(String[] args) 
  {
   timer1 t1 = new timer1();
