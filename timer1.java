@@ -11,7 +11,7 @@ public class Stopwatch implements ActionListener
    JButton startButton = new JButton("start");
    JButton resetButton = new JButton("reset");
    JLabel timeLabel = new JLabel();
-   int timeGone = 0;
+   int timePassed = 0;
    int sec = 0;
    int min = 0;
    int hr = 0;
@@ -21,10 +21,10 @@ public class Stopwatch implements ActionListener
       {
          public void actionPerformed(ActionEvent e) 
          {
-            timeGone = timeGone + 1000;
-            hr = (timeGone / 3600000); //3,600,000 miliseconds in hour
-            min = (timeGone / 60000) % 60; //60,000 mili sec in min                                           
-            sec = (timeGone / 1000) % 60;  // mod 60 so 1 doesnt show up
+            timePassed = timePassed + 1000;
+            hr = (timePassed / 3600000); //3,600,000 miliseconds in hour
+            min = (timePassed / 60000) % 60; //60,000 mili sec in min                                           
+            sec = (timePassed / 1000) % 60;  // mod 60 so 1 doesnt show up
             
             String seconds_string =  String.format("%02d", sec);
             String minutes_string =  String.format("%02d", min);
@@ -125,7 +125,7 @@ public class Stopwatch implements ActionListener
       timer.stop();
       
       //set back to 0
-      timeGone = 0;
+      timePassed = 0;
       min = 0;
       sec = 0;
       hr = 0;
@@ -138,5 +138,5 @@ public class Stopwatch implements ActionListener
       //update timelabel to display strings
       timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
    }
-   
+
 }
