@@ -95,7 +95,7 @@ public class Stopwatch extends Thread implements ActionListener
          {
             started = false;
             startButton.setText("start");
-            stop();
+            doNothing();
          }
       }
       
@@ -109,12 +109,12 @@ public class Stopwatch extends Thread implements ActionListener
       
    }
    
-   void start()
+   public void run()
    {
       timer.start();
    }
    
-   void stop()
+   public void doNothing()
    {
       timer.stop();
    }
