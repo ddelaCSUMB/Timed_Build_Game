@@ -1,115 +1,142 @@
-package timers;
-
+package stopwatch;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import javax.swing.*;
 
 
-public class timer1 extends JFrame implements ActionListener, Runnable
+public class Stopwatch implements ActionListener
 {
- JLabel display;
- JButton button;
- boolean stop = false;
- int min, sec, mil;
- 
- public timer1()
- {
-  display = new JLabel();
-  button = new JButton("start");
-  display.setFont(new Font("Helena",Font.PLAIN,33));
-  display.setBackground(Color.yellow);
-  display.setForeground(Color.black);
-  Container layout = getContentPane();
-  layout.setLayout(new FlowLayout());
-  layout.add(display); layout.add(button);
-  button.addActionListener(this);
- }
- 
- public void run()
- {
-  for(min = 0; ; min++)
-  {
-    for(sec = 0; sec < 60; sec++)
-    {
-     for(mil = 0; mil < 100; mil++)
-     {
-      
-      NumberFormat numFormat = new DecimalFormat("00");
-      display.setText(numFormat.format(min) + ":" +
-      numFormat.format(sec) + ":" + numFormat.format(mil));
-      try
+   //global variables
+   JFrame frame = new JFrame();
+   JButton startButton = new JButton("start");
+   JButton resetButton = new JButton("reset");
+   JLabel timeLabel = new JLabel();
+   int timeGone = 0;
+   int sec = 0;
+   int min = 0;
+   int hr = 0;
+   boolean started = false;
+   
+   Timer timer = new Timer(1000, new ActionListener() 
       {
-         Thread.sleep(10);
-      }
-      catch (Exception e)
-      {       
-      }
-     }   
-    }      
-  } 
- }
- 
- public void doNothing(Thread threadT, ActionEvent actionEvent)
- {
-    boolean clicked = false;
-    while(clicked == false)
-    {
-       if(actionEvent.getActionCommand().equals("wait"))
-       {
-        
-        button.setText("wait");
-        clicked = true;
-        break;
-       }
-    }
-    
- }
- 
- public void actionPerformed(ActionEvent actionEvent)
- {
-  Thread threadT = new Thread(this);
-  if(actionEvent.getActionCommand().equals("start"))
-  {
-   threadT.start();
-   button.setText("pause 5 seconds");
-  }
-  if(actionEvent.getActionCommand().equals("pause 5 seconds"))
-  {
-     try
+         public void actionPerformed(ActionEvent e) 
+         {
+            timeGone = timeGone + 1000;
+            hr = (timeGone / 3600000); //3,600,000 miliseconds in hour
+            min = (timeGone / 60000) % 60; //60,000 mili sec in min                                           
+            sec = (timeGone / 1000) % 60;  // mod 60 so 1 doesnt show up
+            
+            String seconds_string =  String.format("%02d", sec);
+            String minutes_string =  String.format("%02d", min);
+            String hours_string =  String.format("%02d", hr);
+            
+            //displays the hour min and sec strings
+            timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
+            
+            
+         }
+      });
+   
+   //strings to display hours mins and secs
+   String seconds_string =  String.format("%02d", sec);
+   String minutes_string =  String.format("%02d", min);
+   String hours_string =  String.format("%02d", hr);
+   
+   
+   Stopwatch()
    {
-      Thread.sleep(5000);
-   } catch (InterruptedException e)
-   {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      
+      timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
+      timeLabel.setBounds(50, 50, 100, 50);
+      timeLabel.setFont(new Font("Verdana", Font.PLAIN, 20));
+      timeLabel.setBorder(BorderFactory.createBevelBorder(2));
+      timeLabel.setOpaque(true);
+      timeLabel.setHorizontalAlignment(JTextField.CENTER);
+      
+      startButton.setBounds(50, 100, 50, 25);
+      startButton.setFont(new Font("Ink Free", Font.PLAIN, 10));
+      startButton.setFocusable(false);
+      startButton.addActionListener(this);
+      
+      
+      resetButton.setBounds(100, 100, 50, 25);
+      resetButton.setFont(new Font("Ink Free", Font.PLAIN, 10));
+      resetButton.setFocusable(false);
+      resetButton.addActionListener(this);
+      
+      
+      frame.add(startButton);
+      frame.add(resetButton);
+      frame.add(timeLabel);
+      
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setSize(200,200);
+      frame.setLayout(null);
+      frame.setVisible(true);
    }
-     button.setText("restart");
-  }
-  if(actionEvent.getActionCommand().equals("restart"))
-  {
-   //threadT.doNothing(threadT, actionEvent);
-   button.setText("you sure?");
-  }
- 
-  if(actionEvent.getActionCommand().equals("you sure?"))
-  {
-   threadT.start();
-   button.setText("pause 5 seconds");
-  }
-  else
-  {
-   stop = true;
-  }
- }
- 
- public static void main(String[] args) 
- {
-  timer1 t1 = new timer1();
-  t1.setSize(200,100);
-  t1.setVisible(true);
-  t1.setTitle("timer: 60 seconds");
-  t1.setDefaultCloseOperation(EXIT_ON_CLOSE);
- }
+
+   @Override
+   public void actionPerformed(ActionEvent e)
+   {
+      //if the start button clicked 
+      if(e.getSource() == startButton)
+      {
+         start(); //calls method to start
+         
+         
+         if(started == false)
+         {
+            //if program started changes boolean to true and start button to stop
+            started = true;
+            startButton.setText("stop");
+            start();
+         }
+         else
+         {
+            started = false;
+            startButton.setText("start");
+            stop();
+         }
+      }
+      
+      //if reset button is clicked
+      if(e.getSource() == resetButton)
+      {
+         started = false;
+         startButton.setText("start");
+         reset();
+      }
+      
+   }
+   
+   void start()
+   {
+      timer.start();
+   }
+   
+   void stop()
+   {
+      timer.stop();
+   }
+   
+   
+   void reset()
+   {
+      timer.stop();
+      
+      //set back to 0
+      timeGone = 0;
+      min = 0;
+      sec = 0;
+      hr = 0;
+      
+      //updating the strings
+      String seconds_string =  String.format("%02d", sec);
+      String minutes_string =  String.format("%02d", min);
+      String hours_string =  String.format("%02d", hr);
+      
+      //update timelabel to display strings
+      timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
+   }
+   
 }
