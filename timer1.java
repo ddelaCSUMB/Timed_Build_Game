@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class Stopwatch implements ActionListener
+public class Stopwatch extends Thread implements ActionListener
 {
    //global variables
    JFrame frame = new JFrame();
