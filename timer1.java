@@ -138,5 +138,11 @@ public class Stopwatch implements ActionListener
       //update timelabel to display strings
       timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
    }
+   
+   //main method
+    public static void main(String[] args)
+   {
+      Stopwatch stopwatch = new Stopwatch();
+   }
 
 }
