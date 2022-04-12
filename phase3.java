@@ -28,56 +28,27 @@ import java.util.EventListener;
 import java.util.Random;
 public class phase3 implements ActionListener
 {
-   static int NUM_CARDS_PER_HAND = 7;
-   static int NUM_PLAYERS = 2;
-   static JLabel[] computerLabels = new JLabel[NUM_CARDS_PER_HAND];
-   static JLabel[] humanLabels = new JLabel[NUM_CARDS_PER_HAND];
-   static JLabel[] playedCardLabels = new JLabel[NUM_PLAYERS];
-   static JLabel[] playLabelText = new JLabel[NUM_PLAYERS];
-   static JButton[] buttons  = new JButton[NUM_CARDS_PER_HAND];
-   private Card.Suit suit;
 
-   public void loseAction(ActionEvent l)
-   {
-      System.out.println("You Lose, try another card or press re-deal");
-   }
 
-   public void winAction(JButton buttons2)
-   {
-      System.out.println("You win!");
-   }
 
-   @Override
-   public void actionPerformed(ActionEvent e)
-   {
-      // TODO Auto-generated method stub
 
-   }
+
 
 
 
    public static void main(String[] args)
    {
-      int card;
-      Icon tempIcon;
-      int numPacksPerDeck = 1;
-      int numJokersPerPack = 2;
-      int numUnusedCardsPerPack = 0;
-      Card[] unusedCardsPerPack = null;
 
-      CardGameFramework highCardGame = new CardGameFramework
-            (numPacksPerDeck, numJokersPerPack,
-                  numUnusedCardsPerPack, unusedCardsPerPack,
-                  NUM_PLAYERS, NUM_CARDS_PER_HAND);
 
-      highCardGame.deal();
-      GUICard.loadCardIcons();
 
-      CardTableE myCardTable
-            = new CardTableE("CardTable", NUM_CARDS_PER_HAND, NUM_PLAYERS);
-      myCardTable.setSize(800, 600);
-      myCardTable.setLocationRelativeTo(null);
-      myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+
+
+
+
+
+
 
       for (card = 0; card < NUM_CARDS_PER_HAND; card++)
       {
@@ -135,8 +106,8 @@ class CardGameFramework
    private Card[] unusedCardsPerPack;
 
    public CardGameFramework( int numPacks, int numJokersPerPack,
-                             int numUnusedCardsPerPack,  Card[] unusedCardsPerPack,
-                             int numPlayers, int numCardsPerHand)
+      int numUnusedCardsPerPack,  Card[] unusedCardsPerPack,
+      int numPlayers, int numCardsPerHand)
    {
       int k;
 
@@ -149,8 +120,8 @@ class CardGameFramework
       if (numPlayers < 1 || numPlayers > MAX_PLAYERS)
          numPlayers = 4;
       if  (numCardsPerHand < 1 ||
-            numCardsPerHand >  numPacks * (52 - numUnusedCardsPerPack)
-                  / numPlayers )
+              numCardsPerHand >  numPacks * (52 - numUnusedCardsPerPack)
+                                    / numPlayers )
          numCardsPerHand = numPacks * (52 - numUnusedCardsPerPack) / numPlayers;
 
       this.unusedCardsPerPack = new Card[numUnusedCardsPerPack];
@@ -244,7 +215,7 @@ class CardGameFramework
    Card playCard(int playerIndex, int cardIndex)
    {
       if (playerIndex < 0 ||  playerIndex > numPlayers - 1 ||
-            cardIndex < 0 || cardIndex > numCardsPerHand - 1)
+             cardIndex < 0 || cardIndex > numCardsPerHand - 1)
       {
          return new Card('M', Card.Suit.SPADES);
       }
@@ -294,8 +265,8 @@ class CardTableE extends JFrame
       this.numCardsPerHand = numCardsPerHand;
       this.numPlayers = numPlayers;
       //debugging strategies.
-      pnlComputerHand = new JPanel(new GridLayout(0, numCardsPerHand));
-      pnlHumanHand = new JPanel(new GridLayout(2, numCardsPerHand));
+      pnlComputerHand = new JPanel(new GridLayout(1, numCardsPerHand));
+      pnlHumanHand = new JPanel(new GridLayout(1, numCardsPerHand));
       pnlPlayArea = new JPanel(new GridLayout(2, numPlayers));
 
       add(pnlComputerHand, BorderLayout.NORTH);
@@ -342,7 +313,7 @@ class GUICard
    static String numCard(int cardNum)
    {
       String[] cardValues = {"A", "2", "3", "4", "5", "6",
-            "7", "8", "9", "T", "J", "Q", "K", "X"};
+         "7", "8", "9", "T", "J", "Q", "K", "X"};
       return cardValues[cardNum];
    }
    static String numSuit(int suitNum)
@@ -350,7 +321,7 @@ class GUICard
       if (suitNum < 0 || suitNum > 3)
          return "invalid";
       return Card.Suit.values()[suitNum]
-            .toString().toUpperCase().substring(0, 1);
+         .toString().toUpperCase().substring(0, 1);
    }
    private static int valueToInt(Card card)
    {
@@ -362,24 +333,26 @@ class GUICard
 
       switch (cardSuit)
       {
-         case SPADES:
-            return 0;
-         case HEARTS:
-            return 1;
-         case DIAMONDS:
-            return 2;
-         case CLUBS:
-            return 3;
-         default:
-            return -1;
+      case SPADES:
+         return 0;
+      case HEARTS:
+         return 1;
+      case DIAMONDS:
+         return 2;
+      case CLUBS:
+         return 3;
+      default:
+         return -1;
       }
    }
    public static Icon getIcon(Card card)
    {
+      loadCardIcons();
       return iconCards[valueToInt(card)][suitToNum(card)];
    }
    public static Icon getBackcardIcon()
    {
+      loadCardIcons();
       return iconBack;
    }
 }// end of GUICard
@@ -390,7 +363,7 @@ class Card
       SPADES, HEARTS, DIAMONDS, CLUBS;
    }
    public static char[] cardPosition = {'A', '2', '3', '4', '5', '6', '7', '8',
-         '9', 'T', 'J', 'Q', 'K', 'X'};
+      '9', 'T', 'J', 'Q', 'K', 'X'};
 
    private char value;
    private Suit suit;
@@ -442,15 +415,15 @@ class Card
    public boolean equals(Card otherCard)
    {
       return(suit == otherCard.getSuit() && value == otherCard.getValue() &&
-            cardError == otherCard.getCardError() );
+                cardError == otherCard.getCardError() );
 
    }
    private boolean isValid(char value,Suit suit)
    {
       if ((value == '2') || (value == '3') || (value == '4') || (value == '5')
-            || (value == '6') || (value == '7') || (value == '8') ||
-            (value == '9') || (value == 'T') || (value == 'J') || (value == 'Q')
-            || (value == 'K') || (value == 'A'))
+             || (value == '6') || (value == '7') || (value == '8') ||
+             (value == '9') || (value == 'T') || (value == 'J') || (value == 'Q')
+             || (value == 'K') || (value == 'A'))
       {
          return true;
       }
@@ -671,26 +644,26 @@ class Deck
             if (masterPackIndex / NUM_OF_VALUES == 0)
             {
                masterPack[masterPackIndex] =
-                     new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
-                           Card.Suit.SPADES);
+                  new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
+                     Card.Suit.SPADES);
             }
             if (masterPackIndex / NUM_OF_VALUES == 1)
             {
                masterPack[masterPackIndex] =
-                     new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
-                           Card.Suit.CLUBS);
+                  new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
+                     Card.Suit.CLUBS);
             }
             if (masterPackIndex / NUM_OF_VALUES == 2)
             {
                masterPack[masterPackIndex] =
-                     new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
-                           Card.Suit.HEARTS);
+                  new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
+                     Card.Suit.HEARTS);
             }
             if (masterPackIndex / NUM_OF_VALUES == 3)
             {
                masterPack[masterPackIndex] =
-                     new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
-                           Card.Suit.DIAMONDS);
+                  new Card(cardValues.charAt(masterPackIndex % NUM_OF_VALUES),
+                     Card.Suit.DIAMONDS);
             }
          }
       }
@@ -763,7 +736,7 @@ class Deck
       return str;
    }
 
-//end of deck class
+   //end of deck class
 
 
    public class CardGameOutline
@@ -786,8 +759,8 @@ class Deck
       //does not
       // use cards 2-8 of any suit
       CardGameOutline( int numPacks, int numJokersPerPack,
-                       int numUnusedCardsPerPack,  Card[] unusedCardsPerPack,
-                       int numPlayers, int numCardsPerHand)
+         int numUnusedCardsPerPack,  Card[] unusedCardsPerPack,
+         int numPlayers, int numCardsPerHand)
       {
          int k;
          // filter bad values
@@ -802,7 +775,7 @@ class Deck
             numPlayers = 4;
          // one of many ways to assure at least one full deal to all players
          if  (numCardsPerHand < 1 || numCardsPerHand >  numPacks * (52 - numUnusedCardsPerPack)
-               / numPlayers )
+                                                           / numPlayers )
             numCardsPerHand = numPacks * (52 - numUnusedCardsPerPack) / numPlayers;
          // allocate
          this.unusedCardsPerPack = new Card[numUnusedCardsPerPack];
@@ -886,7 +859,7 @@ class Deck
       {
          // returns bad card if either argument is bad
          if (playerIndex < 0 ||  playerIndex > numPlayers - 1 ||
-               cardIndex < 0 || cardIndex > numCardsPerHand - 1)
+                cardIndex < 0 || cardIndex > numCardsPerHand - 1)
          {
             //Creates a card that does not work
             return new Card('M', Card.Suit.SPADES);
